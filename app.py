@@ -4,11 +4,13 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
 
+playlistsID = ['PLh6dVTO7f4FZvh7NMJ3iYWlA--kK4yjad', 'PLrxF2hSiV3wCK09ElXEyXrMeiOf-e4zLC']
+
+videos = []
+
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 
 def main():
-    # Disable OAuthlib's HTTPS verification when running locally.
-    # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
     api_service_name = "youtube"
@@ -22,13 +24,33 @@ def main():
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-    request = youtube.channels().list(
-        part="snippet,contentDetails,statistics",
-        id="UC_x5XG1OV2P6uZZ5FSM9Ttw"
-    )
-    response = request.execute()
+    for ID in playlistsID:
+        request_playlist = youtube.playlistItems().list(
+            part="snippet,contentDetails",
+            maxResults=3,
+            playlistId=ID
+        )
+        response_playlist = request_playlist.execute()
 
-    print(response)
+        for item in response_playlist['items']:
+            videoID = item['contentDetails']['videoId']
+            request_video = youtube.videos().list(
+                part="snippet,contentDetails,statistics",
+                id=videoID
+            )
+            response_video = request_video.execute()
+            print(videoID)
+            if response_video['items']:
+                publishedAt = response_video['items'][0]['snippet']['publishedAt']
+                title = response_video['items'][0]['snippet']['title']
+                duration = response_video['items'][0]['contentDetails']['duration']
+                # for i in range(len(duration)):
+                #     if duration[i] == 'h':
+                #         point = i
+                #         while duration
+                videos.append({'videoID': videoID, 'publishedAt': publishedAt, 'title': title, 'duration': duration})
+
+    print(videos)
 
 if __name__ == "__main__":
     main()
