@@ -20,14 +20,23 @@ def main():
                 publishedAt = response_video['items'][0]['snippet']['publishedAt']
                 title = response_video['items'][0]['snippet']['title']
                 duration = response_video['items'][0]['contentDetails']['duration']
-                # p1 = duration.find('T')
-                # p2 = duration.find('H')
-                # p3 = duration.find('M')
-                # p4 = duration.find('S')
-                # h = int(duration[p1+1:p2])
-                # m = int(duration[p2+1:p3])
-                # s = int(duration[p3+1:p4])
-                # duration = h*3600 + m*60 + s
+                for i in range(len(duration)):
+                    if duration[i] == 'H':
+                        point = i
+                        while duration[i] != 'T':
+                            i -= 1
+                        h = int(duration[i+1:point])
+                    elif duration[i] == 'M':
+                        point = i
+                        while (duration[i] != 'H') and (duration[i] != 'T'):
+                            i-=1
+                        m = int(duration[i+1:point])
+                    elif duration[i] == 'S':
+                        point = i
+                        while (duration[i] != 'M') and (duration[i] != 'T') and (duration[i] != 'H'):
+                            i-=1
+                        s = int(duration[i+1:point])
+                duration = h*3600 + m*60 + s
                 videos.append({'videoID': videoID, 'publishedAt': publishedAt, 'title': title, 'duration': duration})
 
     print(videos)
