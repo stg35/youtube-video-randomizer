@@ -9,13 +9,12 @@ playlistsID = ['PLh6dVTO7f4FZvh7NMJ3iYWlA--kK4yjad', 'PLrxF2hSiV3wCK09ElXEyXrMei
 videos = []
 
 scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
+api_service_name = "youtube"
+api_version = "v3"
+client_secrets_file = "CLIENT_SECRET_FILE.json"
 
 def main():
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-    api_service_name = "youtube"
-    api_version = "v3"
-    client_secrets_file = "CLIENT_SECRET_FILE.json"
 
     # Get credentials and create an API client
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
@@ -44,10 +43,14 @@ def main():
                 publishedAt = response_video['items'][0]['snippet']['publishedAt']
                 title = response_video['items'][0]['snippet']['title']
                 duration = response_video['items'][0]['contentDetails']['duration']
-                # for i in range(len(duration)):
-                #     if duration[i] == 'h':
-                #         point = i
-                #         while duration
+                p1 = duration.find('T')
+                p2 = duration.find('H')
+                p3 = duration.find('M')
+                p4 = duration.find('S')
+                h = int(duration[p1+1:p2])
+                m = int(duration[p2+1:p3])
+                s = int(duration[p3+1:p4])
+                duration = h*3600 + m*60 + s
                 videos.append({'videoID': videoID, 'publishedAt': publishedAt, 'title': title, 'duration': duration})
 
     print(videos)
