@@ -1,0 +1,9 @@
+.video_block{
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  text-decoration: none solid rgb(68, 68, 68);
+}
