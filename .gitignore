@@ -1,4 +1,4 @@
 __pycache__
 .idea
-CLIENT_SECRET_FILE.json
 secret_data.py
+/venv/*
