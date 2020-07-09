@@ -13,7 +13,6 @@ def updateVideos(videos):
 
 def randomVideo():
     end = db['videos'].find().sort('_id', -1).limit(1)[0]['_id'] + 1
-    print(end)
     rand = randint(0, end)
     return db['videos'].find_one({'_id': rand})
 

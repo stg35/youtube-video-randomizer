@@ -24,14 +24,18 @@
   <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoID }}?rel=0" allowfullscreen></iframe>
       </div>
       <div class="like">
-      <button type="button" class="btn btn-white">
+          <form id="like_dislike" method="POST" action="/likesCounter">
+              <div>
+      <button type="submit" class="btn btn-white" name="submit_button" value="like">
         <img src="../static/img/like.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
       </button>
       </div>
         <div class="dislike">
-      <button type="button" class="btn btn-white">
+      <button type="submit" class="btn btn-white" name="submit_button" value="dislike">
         <img src="../static/img/dislike.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
       </button>
+        </div>
+        </form>
         </div>
     </div>
   </div>

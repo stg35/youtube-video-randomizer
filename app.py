@@ -1,6 +1,13 @@
 import requests
+import csv
 from secret_data import API_KEY
 from db import updateVideos
+
+def csv_writer(data, path):
+    with open(path, 'w+', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        for line in data:
+            writer.writerow(line)
 
 def parsedDuration(duration):
     h = 0
@@ -26,6 +33,8 @@ playlistsID = ['PLh6dVTO7f4FZvh7NMJ3iYWlA--kK4yjad', 'PLrxF2hSiV3wCK09ElXEyXrMei
 
 videos = []
 
+data = ['id title tags'.split()]
+
 def main():
     k = 0
     for ID in playlistsID:
@@ -34,11 +43,12 @@ def main():
         response_playlist = request_playlist.json()
         for item in response_playlist['items']:
             videoID = item['contentDetails']['videoId']
-            request_video = requests.get('https://www.googleapis.com/youtube/v3/videos?id={0}&key={1}&part=snippet,contentDetails,statistics'.format(videoID, API_KEY))
+            request_video = requests.get('https://www.googleapis.com/youtube/v3/videos?id={0}&key={1}&part=snippet,contentDetails,statistics,status'.format(videoID, API_KEY))
             response_video = request_video.json()
             if response_video['items']:
                 publishedAt = response_video['items'][0]['snippet']['publishedAt']
                 title = response_video['items'][0]['snippet']['title']
+                description = response_video['items'][0]['snippet']['description']
                 duration = parsedDuration(response_video['items'][0]['contentDetails']['duration'])
                 viewCount = response_video['items'][0]['statistics']['viewCount']
                 likeCount = response_video['items'][0]['statistics']['likeCount']
@@ -46,11 +56,15 @@ def main():
                 commentCount = response_video['items'][0]['statistics']['commentCount']
                 tags = response_video['items'][0]['snippet']['tags']
                 videos.append({'_id': k, 'videoID': videoID, 'publishedAt': publishedAt, 'title': title,
-                               'duration': duration, 'viewCount': viewCount, 'likeCount': likeCount,
-                               'dislikeCount': dislikeCount, 'commentCount': commentCount, 'tags': tags,
-                               'playlistID': ID})
+                               'description': description , 'duration': duration, 'viewCount': viewCount,
+                               'likeCount': likeCount, 'dislikeCount': dislikeCount, 'commentCount': commentCount,
+                               'tags': tags, 'playlistID': ID})
+                data.append([videoID, title, ','.join(tags)])
+
+
             k += 1
     updateVideos(videos)
-
+    path = 'videos_metadata.csv'
+    csv_writer(data, path)
 if __name__ == "__main__":
     main()
