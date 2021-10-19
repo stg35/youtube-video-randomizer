@@ -1,9 +1,16 @@
-.video_block{
-  width: 80%;
-  margin: auto;
+.header{
+    width: 100%;
+    height: 60px;
+    padding: 5px 15px 5px 15px;
+    background-color: #FFF;
+}
+
+.headerText{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+}
+
+.main{
+  display: block;
   text-align: center;
-  font-family: Tahoma, Geneva, sans-serif;
-  font-size: 21px;
-  font-weight: 400;
-  text-decoration: none solid rgb(68, 68, 68);
 }

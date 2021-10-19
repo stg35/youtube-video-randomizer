@@ -11,32 +11,25 @@
     <title>Postnauka videos</title>
 </head>
 <body>
-  <nav class="navbar navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
-    <div class="navbar-brand">
-    <img src="../static/img/camera.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
-    Postnauka Videos
-    </div>
+  <nav class="navbar header">
+    <div class="headerText">Postnauka videos</div>
   </nav>
-  <div class="body">
-    <div class="video_block">
-      <p>{{ title }}</p>
+  <div class="row">
+    <div class="col-sm-8">
       <div class="embed-responsive embed-responsive-16by9">
-  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoID }}?rel=0" allowfullscreen></iframe>
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoID }}?rel=0" allowfullscreen></iframe>
       </div>
-      <div class="like">
-          <form id="like_dislike" method="POST" action="/likesCounter">
-              <div>
-      <button type="submit" class="btn btn-white" name="submit_button" value="like">
-        <img src="../static/img/like.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
-      </button>
-      </div>
-        <div class="dislike">
-      <button type="submit" class="btn btn-white" name="submit_button" value="dislike">
-        <img src="../static/img/dislike.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
-      </button>
-        </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="main" id="main">
+        <div id="y">
+        <span>Do you like this video?</span>
+        <form id="yes_no" method="post" action="/y">
+          <button name="isLike" type="submit" value="yes" class="btn btn-outline-primary">yes</button>
+          <button name="isLike" type="submit" value="no" class="btn btn-outline-primary">no</button>
         </form>
-        </div>
+      </div>
+      </div>
     </div>
   </div>
 </body>

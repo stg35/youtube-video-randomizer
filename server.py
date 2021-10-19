@@ -10,7 +10,7 @@ def index():
     video = randomVideo()
     return render_template('index.html', videoID = video['videoID'], title = video['title'])
 
-# @app.route('/likesCounter', methods=['POST'])
+#@app.route('/likesCounter', methods=['POST'])
 # def getLikes():
 #     if request.form['submit_button'] == 'like':
 #         if 'likes' in session:
@@ -25,6 +25,13 @@ def index():
 #     print('likes: ', session['likes'], ' dislikes: ', session['dislikes'])
 #     return '', 204
 
+@app.route('/y', methods=['POST'])
+def y():
+    if request.form['isLike'] == 'yes':
+        print('yes!')
+    if request.form['isLike'] == 'no':
+        print('no!')
+    return '', 204
 
 
 if __name__ == '__main__':

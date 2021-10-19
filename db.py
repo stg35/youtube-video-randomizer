@@ -16,3 +16,8 @@ def randomVideo():
     rand = randint(0, end)
     return db['videos'].find_one({'_id': rand})
 
+def removeCollection():
+    db['videos'].remove({})
+
+def addVideo(video):
+    db['videos'].insert_one(video)
